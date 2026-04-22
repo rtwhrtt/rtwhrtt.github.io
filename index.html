@@ -183,6 +183,36 @@
             transform: scale(1.05);
         }
 
+        /* Иконки политики и соглашения */
+        .legal-links {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 99;
+            display: flex;
+            gap: 8px;
+            background: rgba(20, 20, 25, 0.4);
+            backdrop-filter: blur(6px);
+            padding: 6px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.15);
+            font-size: 1.2rem;
+        }
+
+        .legal-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .legal-links a:hover {
+            color: white;
+        }
+
+        .legal-links span {
+            color: rgba(255,255,255,0.3);
+        }
+
         @media (max-width: 480px) {
             .container { width: 92%; }
             h1 { font-size: 1.7rem; }
@@ -192,6 +222,12 @@
                 width: 40px;
                 height: 40px;
                 font-size: 20px;
+            }
+            .legal-links {
+                bottom: 70px;
+                right: 16px;
+                font-size: 1rem;
+                padding: 5px 10px;
             }
         }
     </style>
@@ -216,7 +252,6 @@
         <div class="link-card" data-link="tg-channel"></div>
         <div class="link-card" data-link="tiktok"></div>
         <div class="link-card" data-link="tg-pm"></div>
-        <!-- Новая кнопка "Купить ответы ВПР 2026" -->
         <div class="link-card">
             <a href="vpr.html" target="_blank" rel="noopener noreferrer">
                 <span class="icon">📚</span> Купить ответы ВПР 2026
@@ -230,57 +265,40 @@
     </footer>
 </div>
 
-<!-- Аудио элемент -->
 <audio id="bgMusic" loop preload="metadata">
     <source src="assets/main-bg.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Кнопка звука -->
 <div class="sound-toggle" id="soundToggle" title="Включить звук">🔇</div>
+
+<div class="legal-links">
+    <a href="privacy.html" target="_blank" title="Политика конфиденциальности">📜</a>
+    <span>|</span>
+    <a href="terms.html" target="_blank" title="Пользовательское соглашение">⚖️</a>
+</div>
 
 <script>
     (function() {
         "use strict";
 
-        // ---------- ЗАШИФРОВАННЫЕ ССЫЛКИ (base64) ----------
+        // ---------- ЗАШИФРОВАННЫЕ ССЫЛКИ ----------
         const linksData = {
             'tg-channel': 'aHR0cHM6Ly90Lm1lL3J0d2hydF9jaA==',
             'tiktok':     'aHR0cHM6Ly90aWt0b2suY29tL0BydHdocnQ=',
             'tg-pm':      'aHR0cHM6Ly90Lm1lL3J0d2hydA=='
         };
+        const iconsMap = { 'tg-channel': '📢', 'tiktok': '🎵', 'tg-pm': '✍️' };
+        const labelsMap = { 'tg-channel': 'Telegram-канал', 'tiktok': 'TikTok', 'tg-pm': 'Написать мне' };
 
-        const iconsMap = {
-            'tg-channel': '📢',
-            'tiktok':     '🎵',
-            'tg-pm':      '✍️'
-        };
-
-        const labelsMap = {
-            'tg-channel': 'Telegram-канал',
-            'tiktok':     'TikTok',
-            'tg-pm':      'Написать мне'
-        };
-
-        const linkCards = document.querySelectorAll('.link-card[data-link]');
-        linkCards.forEach(card => {
-            const key = card.getAttribute('data-link');
-            const encoded = linksData[key];
-            if (!encoded) return;
-
-            try {
-                const url = atob(encoded);
-                const icon = iconsMap[key] || '🔗';
-                const label = labelsMap[key] || 'Ссылка';
-
-                const a = document.createElement('a');
-                a.href = url;
-                a.target = '_blank';
-                a.rel = 'noopener noreferrer';
-                a.innerHTML = `<span class="icon">${icon}</span> ${label}`;
-                card.appendChild(a);
-            } catch (e) {
-                console.warn('Ошибка декодирования ссылки:', key);
-            }
+        document.querySelectorAll('.link-card[data-link]').forEach(card => {
+            const key = card.dataset.link;
+            const url = atob(linksData[key]);
+            const a = document.createElement('a');
+            a.href = url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.innerHTML = `<span class="icon">${iconsMap[key]}</span> ${labelsMap[key]}`;
+            card.appendChild(a);
         });
 
         // ---------- УПРАВЛЕНИЕ ЗВУКОМ ----------
@@ -288,7 +306,6 @@
         const soundToggle = document.getElementById('soundToggle');
         let isMuted = true;
 
-        // Функция сброса UI в выключенное состояние
         function resetSoundUI() {
             music.muted = true;
             music.pause();
@@ -298,7 +315,6 @@
             soundToggle.title = 'Включить звук';
         }
 
-        // Инициализация
         music.muted = true;
         music.volume = 0.4;
         soundToggle.textContent = '🔇';
@@ -307,32 +323,25 @@
         function toggleSound() {
             if (isMuted) {
                 music.muted = false;
-                const playPromise = music.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        isMuted = false;
-                        soundToggle.textContent = '🔊';
-                        soundToggle.title = 'Выключить звук';
-                    }).catch(err => {
-                        console.warn('Автовоспроизведение заблокировано. Нажмите ещё раз.');
-                        music.muted = true;
-                        soundToggle.title = 'Нажмите для включения звука (требуется взаимодействие)';
-                    });
-                } else {
+                music.play().then(() => {
                     isMuted = false;
                     soundToggle.textContent = '🔊';
-                }
+                    soundToggle.title = 'Выключить звук';
+                }).catch(err => {
+                    console.warn('Автовоспроизведение заблокировано. Нажмите ещё раз.');
+                    music.muted = true;
+                    soundToggle.title = 'Нажмите для включения звука (требуется взаимодействие)';
+                });
             } else {
                 resetSoundUI();
             }
         }
 
-        soundToggle.addEventListener('click', (e) => {
+        soundToggle.addEventListener('click', e => {
             e.stopPropagation();
             toggleSound();
         });
 
-        // ---------- ФУНКЦИЯ ОСТАНОВКИ МУЗЫКИ ----------
         function stopMusic() {
             if (music && !music.paused) {
                 music.pause();
@@ -340,69 +349,47 @@
             }
         }
 
-        // Остановка при уходе со страницы
         window.addEventListener('beforeunload', stopMusic);
+        document.querySelectorAll('a').forEach(link => link.addEventListener('click', stopMusic));
 
-        // Остановка при клике на любую ссылку
-        document.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', stopMusic);
-        });
-
-        // ---------- ПАСХАЛКА: 15 кликов по аватарке ----------
-        let clickCount = 0;
-        let clickTimeout = null;
-        const avatar = document.getElementById('easterEggAvatar');
-        if (avatar) {
-            avatar.addEventListener('click', () => {
-                clickCount++;
-                if (clickTimeout) clearTimeout(clickTimeout);
-                clickTimeout = setTimeout(() => { clickCount = 0; }, 1000);
-                if (clickCount >= 15) {
-                    stopMusic(); // ЯВНАЯ ОСТАНОВКА
-                    window.open('easter.html', '_blank');
-                    clickCount = 0;
-                }
-            });
-        }
-
-        // ---------- ПАСХАЛКА: 5 кликов по надписи Терри ----------
-        let terryClickCount = 0;
-        let terryTimeout = null;
-        const terryTrigger = document.getElementById('terryTrigger');
-        if (terryTrigger) {
-            terryTrigger.addEventListener('click', (e) => {
-                e.preventDefault();
-                terryClickCount++;
-                if (terryTimeout) clearTimeout(terryTimeout);
-                terryTimeout = setTimeout(() => { terryClickCount = 0; }, 1000);
-                if (terryClickCount >= 5) {
-                    stopMusic(); // ЯВНАЯ ОСТАНОВКА
-                    window.location.href = 'mem.html';
-                    terryClickCount = 0;
-                }
-            });
-        }
-
-        // ---------- СБРОС ЗВУКА ПРИ ВОЗВРАТЕ НА СТРАНИЦУ ----------
-        window.addEventListener('pageshow', (event) => {
-            // Если страница восстановлена из кэша (возврат по кнопке "Назад")
-            if (event.persisted) {
-                resetSoundUI();
+        // ---------- ПАСХАЛКИ ----------
+        let clickCount = 0, clickTimeout;
+        document.getElementById('easterEggAvatar').addEventListener('click', () => {
+            clickCount++;
+            clearTimeout(clickTimeout);
+            clickTimeout = setTimeout(() => clickCount = 0, 1000);
+            if (clickCount >= 15) {
+                stopMusic();
+                window.open('easter.html', '_blank');
+                clickCount = 0;
             }
         });
 
-        // ---------- ФОЛБЭК ВИДЕО ----------
-        const video = document.getElementById('bg-video');
-        video.addEventListener('error', () => {
+        let terryCount = 0, terryTimeout;
+        document.getElementById('terryTrigger').addEventListener('click', (e) => {
+            e.preventDefault();
+            terryCount++;
+            clearTimeout(terryTimeout);
+            terryTimeout = setTimeout(() => terryCount = 0, 1000);
+            if (terryCount >= 5) {
+                stopMusic();
+                window.location.href = 'mem.html';
+                terryCount = 0;
+            }
+        });
+
+        window.addEventListener('pageshow', event => {
+            if (event.persisted) resetSoundUI();
+        });
+
+        document.getElementById('bg-video').addEventListener('error', () => {
             console.warn('Видео не загружено, используется статичный фон');
         });
 
-        // ---------- ПРЕДЗАГРУЗКА АУДИО ----------
         window.addEventListener('load', () => {
             music.muted = true;
             music.play().catch(() => {});
         });
-
     })();
 </script>
 
