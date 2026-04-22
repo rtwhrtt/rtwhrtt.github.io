@@ -87,8 +87,32 @@
             font-size: 3rem;
             font-weight: 700;
             color: #ffd966;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             text-shadow: 0 0 15px rgba(255, 220, 100, 0.3);
+        }
+
+        .instruction {
+            background: rgba(0,0,0,0.25);
+            border-radius: 20px;
+            padding: 1.2rem;
+            margin-bottom: 1.8rem;
+            text-align: center;
+            border: 1px dashed rgba(255,215,0,0.3);
+        }
+
+        .instruction p {
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .instruction a {
+            color: #ffd966;
+            text-decoration: none;
+            border-bottom: 1px dotted;
+        }
+
+        .instruction a:hover {
+            color: #fff;
         }
 
         .buttons {
@@ -125,38 +149,16 @@
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
         }
 
-        .pay-btn.tg-btn {
-            background: rgba(0, 160, 255, 0.12);
-            border-color: rgba(0, 160, 255, 0.5);
-            color: #7fc9ff;
+        .check-btn {
+            background: rgba(100, 150, 255, 0.12);
+            border-color: rgba(100, 150, 255, 0.5);
+            color: #aac8ff;
         }
 
-        .pay-btn.tg-btn:hover {
-            background: rgba(0, 160, 255, 0.25);
-            border-color: #7fc9ff;
-            color: #b3dfff;
-            box-shadow: 0 0 25px rgba(0, 160, 255, 0.3);
-        }
-
-        .qr-container {
-            margin-top: 1.5rem;
-            text-align: center;
-            display: none;
-        }
-
-        .qr-container img {
-            max-width: 250px;
-            width: 100%;
-            border-radius: 16px;
-            border: 2px solid rgba(255, 215, 0, 0.4);
-        }
-
-        .qr-placeholder {
-            padding: 20px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 16px;
-            color: #ccc;
-            font-size: 0.9rem;
+        .check-btn:hover {
+            background: rgba(100, 150, 255, 0.25);
+            border-color: #aac8ff;
+            color: #d0e0ff;
         }
 
         .back-link {
@@ -165,7 +167,7 @@
             text-decoration: none;
             font-size: 0.95rem;
             transition: color 0.2s;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
         }
 
         .back-link:hover {
@@ -234,31 +236,23 @@
     <div class="payment-card">
         <h1>ОПЛАТА</h1>
         <div class="price">200 ₽</div>
-        <div class="buttons">
-            <!-- Кнопка оплаты через DonatePay -->
-            <a href="https://donatepay.ru/don/1490204" target="_blank" class="pay-btn" id="donateBtn">💳 Оплатить картой</a>
-            <!-- Кнопка показа QR-кода СБП -->
-            <button class="pay-btn" id="sbpBtn">📱 Оплатить по СБП</button>
-        </div>
-        <!-- Контейнер для QR-кода СБП -->
-        <div class="qr-container" id="qrContainer">
-            <img src="assets/sbp-qr.png" alt="QR-код СБП" id="qrImage" style="display: none;">
-            <div class="qr-placeholder" id="qrPlaceholder">
-                QR-код для оплаты по СБП<br> (загрузите изображение в assets/sbp-qr.png)
-            </div>
+
+        <!-- Инструкция -->
+        <div class="instruction">
+            <p>💳 Перейдите по ссылке ниже и введите сумму <strong>200 рублей</strong>.</p>
+            <p>📎 <a href="https://pressf.com/rtwhrt/donate" target="_blank">pressf.com/rtwhrt/donate</a></p>
+            <p>⬇️ После оплаты нажмите кнопку «Отправить чек» и пришлите скриншот.</p>
         </div>
 
-        <!-- Блок после оплаты -->
-        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
-            <p style="margin-bottom: 1rem; opacity: 0.9; font-size: 0.95rem;">
-                ✅ После оплаты отправьте чек в Telegram и получите ответы.
-            </p>
-            <a href="https://t.me/durov_in_tatarstan" target="_blank" class="pay-btn tg-btn" style="margin-bottom: 1rem;">
-                📩 Отправить чек
-            </a>
-            <p style="opacity: 0.6; font-size: 0.8rem;">
-                Если кнопка не работает, напишите вручную: <br> <span style="color: #7fc9ff;">@durov_in_tatarstan</span>
-            </p>
+        <div class="buttons">
+            <!-- Кнопка оплаты -->
+            <a href="https://pressf.com/rtwhrt/donate" target="_blank" class="pay-btn">💳 Перейти к оплате</a>
+            <!-- Кнопка отправки чека -->
+            <a href="https://t.me/durov_in_tatarstan" target="_blank" class="pay-btn check-btn">📤 Отправить чек</a>
+        </div>
+
+        <div style="text-align: center; font-size: 0.8rem; opacity: 0.6; margin-bottom: 1rem;">
+            Если ссылка не работает, напишите в Telegram: <br> <strong>@durov_in_tatarstan</strong>
         </div>
 
         <div style="text-align: center;">
@@ -286,7 +280,7 @@
             console.warn('Видео не найдено.');
         });
 
-        // --- Управление звуком (идеальная версия) ---
+        // --- Управление звуком ---
         const music = document.getElementById('bgMusic');
         const soundToggle = document.getElementById('soundToggle');
         let isMuted = true;
@@ -348,38 +342,6 @@
         window.addEventListener('load', () => {
             music.muted = true;
             music.play().catch(() => {});
-        });
-
-        // --- Логика показа QR-кода СБП ---
-        const sbpBtn = document.getElementById('sbpBtn');
-        const qrContainer = document.getElementById('qrContainer');
-        const qrImage = document.getElementById('qrImage');
-        const qrPlaceholder = document.getElementById('qrPlaceholder');
-
-        qrImage.addEventListener('load', () => {
-            qrImage.style.display = 'block';
-            qrPlaceholder.style.display = 'none';
-        });
-        qrImage.addEventListener('error', () => {
-            qrImage.style.display = 'none';
-            qrPlaceholder.style.display = 'block';
-        });
-
-        sbpBtn.addEventListener('click', () => {
-            if (qrContainer.style.display === 'block') {
-                qrContainer.style.display = 'none';
-            } else {
-                qrContainer.style.display = 'block';
-                if (qrImage.complete) {
-                    if (qrImage.naturalWidth === 0) {
-                        qrImage.style.display = 'none';
-                        qrPlaceholder.style.display = 'block';
-                    } else {
-                        qrImage.style.display = 'block';
-                        qrPlaceholder.style.display = 'none';
-                    }
-                }
-            }
         });
 
     })();
