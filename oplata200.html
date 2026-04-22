@@ -51,7 +51,7 @@
         .content {
             position: relative;
             z-index: 3;
-            max-width: 500px;
+            max-width: 450px;
             width: 90%;
             margin: 20px auto;
             padding: 20px;
@@ -65,6 +65,7 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             padding: 2rem 1.8rem;
             animation: fadeIn 0.5s ease-out;
+            text-align: center;
         }
 
         @keyframes fadeIn {
@@ -73,7 +74,6 @@
         }
 
         h1 {
-            text-align: center;
             color: #ffffff;
             font-size: 2.2rem;
             font-weight: 600;
@@ -83,36 +83,11 @@
         }
 
         .price {
-            text-align: center;
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
             color: #ffd966;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             text-shadow: 0 0 15px rgba(255, 220, 100, 0.3);
-        }
-
-        .instruction {
-            background: rgba(0,0,0,0.25);
-            border-radius: 20px;
-            padding: 1.2rem;
-            margin-bottom: 1.8rem;
-            text-align: center;
-            border: 1px dashed rgba(255,215,0,0.3);
-        }
-
-        .instruction p {
-            margin-bottom: 0.8rem;
-            line-height: 1.5;
-        }
-
-        .instruction a {
-            color: #ffd966;
-            text-decoration: none;
-            border-bottom: 1px dotted;
-        }
-
-        .instruction a:hover {
-            color: #fff;
         }
 
         .buttons {
@@ -125,28 +100,26 @@
         .pay-btn {
             display: block;
             width: 100%;
-            padding: 1rem;
-            background: rgba(255, 215, 0, 0.12);
+            padding: 1.1rem;
+            background: rgba(255, 215, 0, 0.15);
             border: 1px solid rgba(255, 215, 0, 0.5);
             border-radius: 40px;
             color: #ffd966;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            text-align: center;
+            letter-spacing: 2px;
             backdrop-filter: blur(8px);
             transition: all 0.2s;
-            cursor: pointer;
         }
 
         .pay-btn:hover {
-            background: rgba(255, 215, 0, 0.25);
+            background: rgba(255, 215, 0, 0.3);
             border-color: #ffd966;
             color: #fff3d1;
-            transform: scale(1.01);
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
 
         .check-btn {
@@ -159,6 +132,18 @@
             background: rgba(100, 150, 255, 0.25);
             border-color: #aac8ff;
             color: #d0e0ff;
+        }
+
+        .telegram-hint {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .telegram-hint a {
+            color: #aac8ff;
+            text-decoration: none;
+            border-bottom: 1px dotted;
         }
 
         .back-link {
@@ -202,26 +187,11 @@
         }
 
         @media (max-width: 480px) {
-            .payment-card {
-                padding: 1.5rem;
-            }
-            h1 {
-                font-size: 1.8rem;
-            }
-            .price {
-                font-size: 2.5rem;
-            }
-            .pay-btn {
-                font-size: 1rem;
-                padding: 0.9rem;
-            }
-            .sound-toggle {
-                bottom: 16px;
-                right: 16px;
-                width: 40px;
-                height: 40px;
-                font-size: 20px;
-            }
+            .payment-card { padding: 1.8rem 1.5rem; }
+            h1 { font-size: 1.8rem; }
+            .price { font-size: 2.8rem; }
+            .pay-btn { font-size: 1.1rem; padding: 1rem; }
+            .sound-toggle { bottom: 16px; right: 16px; width: 40px; height: 40px; font-size: 20px; }
         }
     </style>
 </head>
@@ -236,51 +206,35 @@
     <div class="payment-card">
         <h1>ОПЛАТА</h1>
         <div class="price">200 ₽</div>
-
-        <!-- Инструкция -->
-        <div class="instruction">
-            <p>💳 Перейдите по ссылке ниже и введите сумму <strong>200 рублей</strong>.</p>
-            <p>📎 <a href="https://pressf.com/rtwhrt/donate" target="_blank">pressf.com/rtwhrt/donate</a></p>
-            <p>⬇️ После оплаты нажмите кнопку «Отправить чек» и пришлите скриншот.</p>
-        </div>
-
         <div class="buttons">
-            <!-- Кнопка оплаты -->
-            <a href="https://pressf.com/rtwhrt/donate" target="_blank" class="pay-btn">💳 Перейти к оплате</a>
-            <!-- Кнопка отправки чека -->
+            <a href="https://pay.ruks.me/redirect.php?shop_id=3732&amount=200&order_id=1&c=RUB&sign=d05f08e3aacf0bbae59646b3f8ca85f9ef1225ff753f1d2c8a9139c06e17fae5" target="_blank" class="pay-btn">💳 Оплатить</a>
             <a href="https://t.me/durov_in_tatarstan" target="_blank" class="pay-btn check-btn">📤 Отправить чек</a>
         </div>
-
-        <div style="text-align: center; font-size: 0.8rem; opacity: 0.6; margin-bottom: 1rem;">
-            Если ссылка не работает, напишите в Telegram: <br> <strong>@durov_in_tatarstan</strong>
+        <div class="telegram-hint">
+            Если не работает — напишите <a href="https://t.me/durov_in_tatarstan" target="_blank">@durov_in_tatarstan</a>
         </div>
-
-        <div style="text-align: center;">
+        <div style="margin-top: 1.5rem;">
             <a href="vpr.html" class="back-link">← Назад к ВПР</a>
         </div>
     </div>
 </div>
 
-<!-- Аудио -->
 <audio id="bgMusic" loop preload="metadata">
     <source src="assets/main-bg.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Кнопка звука -->
 <div class="sound-toggle" id="soundToggle" title="Включить звук">🔇</div>
 
 <script>
     (function() {
         "use strict";
 
-        // --- Фолбэк видео ---
         const video = document.getElementById('bg-video');
         video.addEventListener('error', () => {
             video.style.display = 'none';
             console.warn('Видео не найдено.');
         });
 
-        // --- Управление звуком ---
         const music = document.getElementById('bgMusic');
         const soundToggle = document.getElementById('soundToggle');
         let isMuted = true;
@@ -309,14 +263,14 @@
                 }).catch(err => {
                     console.warn('Автовоспроизведение заблокировано. Нажмите ещё раз.');
                     music.muted = true;
-                    soundToggle.title = 'Нажмите для включения звука (требуется взаимодействие)';
+                    soundToggle.title = 'Нажмите для включения звука';
                 });
             } else {
                 resetSoundUI();
             }
         }
 
-        soundToggle.addEventListener('click', (e) => {
+        soundToggle.addEventListener('click', e => {
             e.stopPropagation();
             toggleSound();
         });
@@ -329,21 +283,16 @@
         }
 
         window.addEventListener('beforeunload', stopMusic);
-        document.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', stopMusic);
-        });
+        document.querySelectorAll('a').forEach(link => link.addEventListener('click', stopMusic));
 
-        window.addEventListener('pageshow', (event) => {
-            if (event.persisted) {
-                resetSoundUI();
-            }
+        window.addEventListener('pageshow', event => {
+            if (event.persisted) resetSoundUI();
         });
 
         window.addEventListener('load', () => {
             music.muted = true;
             music.play().catch(() => {});
         });
-
     })();
 </script>
 
